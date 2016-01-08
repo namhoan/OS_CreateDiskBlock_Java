@@ -1,0 +1,30 @@
+Namho An
+12/06/2015
+PA03 README
+
+Both parts are implemented.
+
+getDirectBlock() function in MyFileSystem.java is modified to support single
+indirection, double indirection, and triple indirection.
+
+When a block of data is required, one of four cases happens according to the
+block number.
+(1) If the block number is 0-9, then use it as the index in the inode to find
+the address of the corresponding data.
+(2) Since each block can save BLOCK_SIZE / 4 integers, where 4 is the size of
+one integer in bytes, the single indirection table can save up to BLOCK_SIZE / 4
+block addresses. Thus, if the requested block is between 10 and 10 + BLOCK_SIZE/4.
+Use inode.ptr[10] to visit the single indirection block table.
+(3) If block number is more than 10+BLOCK_SIZE/4 and less than 10 + (BLOCK_SIZE/4)^2,
+the double indirection table (at inode.ptr[11]) has to be used to locate the data.
+(4) Otherwise, the triple indirection table (at inode.ptr[12]) has to be used.
+
+During the search process for WRITE MODE, if an entry in the table is empty, a disk block has to be
+created (createDiskBlock function) to allocate a new block.
+
+The helper function createDiskBlock() is implemented to allocate a disk block and update
+the data in the block.
+
+The helper function getBlockEntry() is implemented to fetch data in a block which stores
+indirection tables.
+
